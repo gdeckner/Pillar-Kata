@@ -1,0 +1,6 @@
+**Pencil Config**
+**Only change the values**
+
+Pencil Durability = {40000}
+Pencil Length = {3}
+Eraser Durability = {5000}

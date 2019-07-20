@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pencil Durability Kata", "Pencil Durability Kata\Pencil Durability Kata.csproj", "{3F19FAE9-090C-4D94-9347-AD146A8B765C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pencil Durability Kata Testing", "Pencil Durability Kata Testing\Pencil Durability Kata Testing.csproj", "{A9F1A0A1-46A5-40CF-BCDA-EF101E92A5DE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F19FAE9-090C-4D94-9347-AD146A8B765C} = {3F19FAE9-090C-4D94-9347-AD146A8B765C}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{3F19FAE9-090C-4D94-9347-AD146A8B765C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F19FAE9-090C-4D94-9347-AD146A8B765C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F19FAE9-090C-4D94-9347-AD146A8B765C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F1A0A1-46A5-40CF-BCDA-EF101E92A5DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F1A0A1-46A5-40CF-BCDA-EF101E92A5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F1A0A1-46A5-40CF-BCDA-EF101E92A5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F1A0A1-46A5-40CF-BCDA-EF101E92A5DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
