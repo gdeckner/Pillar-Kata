@@ -8,8 +8,9 @@ namespace Pencil_Durability_Kata
 {
    public class Pencil
     {
-        public int pencilDurability { get; set; }
-        public int pencilLength { get; set; }
-        public int eraserDurability { get; set; }
+        public int StartPencilDurability { get; set; }
+        public int CurrentPencilDurability { get; set; }
+        public int PencilLength { get; set; }
+        public int EraserDurability { get; set; }
     }
 }

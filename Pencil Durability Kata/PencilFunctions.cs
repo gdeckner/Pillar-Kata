@@ -12,22 +12,25 @@ namespace Pencil_Durability_Kata
 
         private Pencil newPencil = new Pencil();
         // filePath points to a txt file that sets the values for pencil, default is set to current directory of this folder.
-        private string filePath = System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\config.txt");
+        private readonly string filePath = System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\config.txt");
 
         //created specifically for testing in order to keep the object private.
-        public Pencil testPencil
+        public Pencil TestPencil
         {
             get
             {
                 return newPencil;
             }
         }
-
-        public PencilFunctions()
+        public void DegradePencil(int degrationPoints)
         {
-
+            
+            newPencil.CurrentPencilDurability -= degrationPoints;
+            if(newPencil.CurrentPencilDurability <= 0)
+            {
+                newPencil.CurrentPencilDurability = 0; //Adjust so you can't have a negative durability
+            }
         }
-
         //Takes the file path and reads the txt file located in that path and sets the pencil's properties.
         public void SetPencilSettings(string filePath)
         {
@@ -50,15 +53,16 @@ namespace Pencil_Durability_Kata
 
                         if (line.StartsWith("Pencil Durability"))
                         {
-                            newPencil.pencilDurability = Convert.ToInt32(configValue);
+                            newPencil.StartPencilDurability = Convert.ToInt32(configValue);
+                            newPencil.CurrentPencilDurability = newPencil.StartPencilDurability;
                         }
                         else if (line.StartsWith("Pencil Length"))
                         {
-                            newPencil.pencilLength = Convert.ToInt32(configValue);
+                            newPencil.PencilLength = Convert.ToInt32(configValue);
                         }
                         else if (line.StartsWith("Eraser Durability"))
                         {
-                            newPencil.eraserDurability = Convert.ToInt32(configValue);
+                            newPencil.EraserDurability = Convert.ToInt32(configValue);
                         }
                     }
 

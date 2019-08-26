@@ -8,24 +8,39 @@ namespace Pencil_Durability_Kata_Testing
     public class PencilFunctionTests
     {
         //File Path for test file, must change path to match your settings.
-         private string filePath = @"C:\Kota\Pencil Durability Kata\Pencil Durability Kata\config.txt";
+        private string filePath = @"C:\Coding Stuff\Pillar-Kata\Pencil Durability Kata\config.txt";
 
         PencilFunctions testFunctions = new PencilFunctions();
-        
+
+
+        public PencilFunctionTests()
+        {
+            testFunctions.SetPencilSettings(filePath);
+        }
+
 
         [TestMethod]
         public void SetPencilSettingsTest()
         {
-            testFunctions.SetPencilSettings(filePath);
+           
+            Assert.AreNotEqual(1000, testFunctions.TestPencil.CurrentPencilDurability);
+            Assert.AreEqual(40000, testFunctions.TestPencil.CurrentPencilDurability);
 
-            Assert.AreNotEqual(1000, testFunctions.testPencil.pencilDurability);
-            Assert.AreEqual(40000, testFunctions.testPencil.pencilDurability);
+            Assert.AreNotEqual(2, testFunctions.TestPencil.PencilLength);
+            Assert.AreEqual(3, testFunctions.TestPencil.PencilLength);
 
-            Assert.AreNotEqual(2, testFunctions.testPencil.pencilLength);
-            Assert.AreEqual(3, testFunctions.testPencil.pencilLength);
+            Assert.AreNotEqual(400, testFunctions.TestPencil.EraserDurability);
+            Assert.AreEqual(5000, testFunctions.TestPencil.EraserDurability);
 
-            Assert.AreNotEqual(400, testFunctions.testPencil.eraserDurability);
-            Assert.AreEqual(5000, testFunctions.testPencil.eraserDurability);
+        }
+        [TestMethod]
+        public void DegradePencilTest()
+        {
+            testFunctions.DegradePencil(20000);
+            Assert.AreEqual(20000,testFunctions.TestPencil.CurrentPencilDurability);
+
+            testFunctions.DegradePencil(40000);
+            Assert.AreEqual(0, testFunctions.TestPencil.CurrentPencilDurability);
 
         }
     }
