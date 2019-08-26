@@ -43,6 +43,18 @@ namespace Pencil_Durability_Kata_Testing
             Assert.AreEqual(0, testFunctions.TestPencil.CurrentPencilDurability);
 
         }
+        [TestMethod]
+        public void CalculateDegradationPencilTest()
+        {
+            string testInput1 = "This is a test statement!!!";
+            string testInput2 = "How Much Wood Would a Woodchuck Chuck If a Woodchuck Could Chuck Wood?";
+
+
+            Assert.AreEqual(24,testFunctions.CalculateDegradationPoints(testInput1));
+
+            Assert.AreEqual(69, testFunctions.CalculateDegradationPoints(testInput2));
+
+        }
     }
 
 }

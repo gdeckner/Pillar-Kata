@@ -22,6 +22,32 @@ namespace Pencil_Durability_Kata
                 return newPencil;
             }
         }
+        public int CalculateDegradationPoints(string input)
+        {
+            int degradationPoints;
+            int lowerCaseCount = 0;
+            int upperCaseCount = 0;
+
+            foreach(char c in input)
+            {
+                if(char.IsWhiteSpace(c))
+                {
+                    //do nothing
+                }
+                else if(char.IsUpper(c))
+                {
+                    upperCaseCount++;
+                }
+                else
+                {
+                    lowerCaseCount++;
+                }
+                
+            }
+            degradationPoints = lowerCaseCount + (upperCaseCount * 2);
+
+            return degradationPoints;
+        }
         public void DegradePencil(int degrationPoints)
         {
             
