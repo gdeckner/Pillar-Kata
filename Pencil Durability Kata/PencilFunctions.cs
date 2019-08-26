@@ -22,6 +22,45 @@ namespace Pencil_Durability_Kata
                 return newPencil;
             }
         }
+
+        public string WritingPreperation(string input)
+        {
+            string output = "";
+            int degradationPoints = CalculateDegradationPoints(input);
+            
+
+            if(degradationPoints <= newPencil.CurrentPencilDurability)
+            {
+                output = input;
+               
+            }
+            else
+            {
+                int count = newPencil.CurrentPencilDurability;
+
+                foreach(char x in input)
+                {
+                   
+                    if(char.IsUpper(x) && count >= 2)
+                    {
+                        count -= 2;
+                        output += x;
+                    }
+                    else if(!char.IsWhiteSpace(x) && !char.IsUpper(x) && count >= 1)
+                    {
+                        count -= 1;
+                        output += x;
+                    }
+                    else
+                    {
+                        output += " ";
+                    }
+                }
+            }
+
+            DegradePencil(degradationPoints);
+            return output;
+        }
         public int CalculateDegradationPoints(string input)
         {
             int degradationPoints;

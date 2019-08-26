@@ -55,6 +55,21 @@ namespace Pencil_Durability_Kata_Testing
             Assert.AreEqual(69, testFunctions.CalculateDegradationPoints(testInput2));
 
         }
+        [TestMethod]
+        public void WritingPreperationTest()
+        {
+            string testInput1 = "This is a test statement!!!";
+            string testInput2 = "How Much Wood Would a Woodchuck Chuck If a Woodchuck Could Chuck Wood?T";
+
+
+            testFunctions.TestPencil.CurrentPencilDurability = 20;
+
+            Assert.AreEqual("This is a test statemen    ", testFunctions.WritingPreperation(testInput1));
+
+            testFunctions.TestPencil.CurrentPencilDurability = 70;
+
+            Assert.AreEqual("How Much Wood Would a Woodchuck Chuck If a Woodchuck Could Chuck Wood? ", testFunctions.WritingPreperation(testInput2));
+        }
     }
 
 }
