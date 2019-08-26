@@ -9,6 +9,7 @@ namespace Pencil_Durability_Kata_Testing
     {
         //File Path for test file, must change path to match your settings.
         private string filePath = @"C:\Coding Stuff\Pillar-Kata\Pencil Durability Kata\config.txt";
+        private string createdWriteFilePath = @System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\WriteFile.txt");
 
         PencilFunctions testFunctions = new PencilFunctions();
 
@@ -16,6 +17,7 @@ namespace Pencil_Durability_Kata_Testing
         public PencilFunctionTests()
         {
             testFunctions.SetPencilSettings(filePath);
+            File.Delete(createdWriteFilePath);
         }
 
 
@@ -69,6 +71,58 @@ namespace Pencil_Durability_Kata_Testing
             testFunctions.TestPencil.CurrentPencilDurability = 70;
 
             Assert.AreEqual("How Much Wood Would a Woodchuck Chuck If a Woodchuck Could Chuck Wood? ", testFunctions.WritingPreperation(testInput2));
+        }
+        [TestMethod]
+        public void WriteToTxtFileTest()
+        {
+            string testInput1 = "This is a test statement!!!";
+            testFunctions.WriteToFile(testInput1);
+
+            string testResults = "";
+
+            using(StreamReader sr = File.OpenText(createdWriteFilePath))
+            {
+                string line;
+                while((line = sr.ReadLine()) != null)
+                {
+                    testResults += line;
+                }
+            }
+
+            Assert.AreEqual(testInput1, testResults);
+        }
+        [TestMethod]
+        public void FullWriteAndDegradePointsTest()
+        {
+            string testInput1 = "This is a test statement!!!";
+
+
+            testFunctions.TestPencil.CurrentPencilDurability = 20;
+
+            string writingTestResult = testFunctions.WritingPreperation(testInput1);
+
+            Assert.AreEqual("This is a test statemen    ", writingTestResult);
+            Assert.AreEqual(0, testFunctions.TestPencil.CurrentPencilDurability);
+
+            testFunctions.WriteToFile(writingTestResult);
+
+           
+
+            string testResults = "";
+
+            using (StreamReader sr = File.OpenText(createdWriteFilePath))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    testResults += line;
+                }
+            }
+
+            Assert.AreEqual(writingTestResult, testResults);
+
+
+
         }
     }
 

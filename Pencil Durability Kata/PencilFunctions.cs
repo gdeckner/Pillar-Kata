@@ -13,6 +13,9 @@ namespace Pencil_Durability_Kata
         private Pencil newPencil = new Pencil();
         // filePath points to a txt file that sets the values for pencil, default is set to current directory of this folder.
         private readonly string filePath = System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\config.txt");
+        private string createdWriteFilePath = System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\WriteFile.txt");
+
+
 
         //created specifically for testing in order to keep the object private.
         public Pencil TestPencil
@@ -23,6 +26,13 @@ namespace Pencil_Durability_Kata
             }
         }
 
+        public void WriteToFile(string input)
+        {
+            using(StreamWriter sw = File.AppendText(createdWriteFilePath))
+            {
+                sw.WriteLine(input);
+            }
+        }
         public string WritingPreperation(string input)
         {
             string output = "";
