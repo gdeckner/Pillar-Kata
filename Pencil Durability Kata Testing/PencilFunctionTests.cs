@@ -52,9 +52,9 @@ namespace Pencil_Durability_Kata_Testing
             string testInput2 = "How Much Wood Would a Woodchuck Chuck If a Woodchuck Could Chuck Wood?";
 
 
-            Assert.AreEqual(24,testFunctions.CalculateDegradationPoints(testInput1));
+            Assert.AreEqual(24,testFunctions.CalculatePencilDegradationPoints(testInput1));
 
-            Assert.AreEqual(69, testFunctions.CalculateDegradationPoints(testInput2));
+            Assert.AreEqual(69, testFunctions.CalculatePencilDegradationPoints(testInput2));
 
         }
         [TestMethod]
@@ -135,7 +135,31 @@ namespace Pencil_Durability_Kata_Testing
 
             Assert.AreEqual(startPencilLength - 1, testFunctions.TestPencil.PencilLength);
         }
+        [TestMethod]
+        public void DegradeEraserTest()
+        {
+            testFunctions.DegradeEraser(5000);
 
+            Assert.AreEqual(0, testFunctions.TestPencil.EraserDurability);
+
+            testFunctions.TestPencil.EraserDurability = 10000;
+            testFunctions.DegradeEraser(5000);
+            Assert.AreEqual(5000, testFunctions.TestPencil.EraserDurability);
+
+            testFunctions.DegradeEraser(500000);
+            Assert.AreEqual(0, testFunctions.TestPencil.EraserDurability);
+
+        }
+        [TestMethod]
+        public void CalculateEraserDegradePointsTest()
+        {
+            string input = "This is an eraser test, I really hope it works that would be nice!";
+
+            int result = testFunctions.CalculateEraserDegradationPoints(input);
+
+            Assert.AreEqual(53, result);
+
+        }
     }
 
 }

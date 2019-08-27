@@ -37,7 +37,7 @@ namespace Pencil_Durability_Kata
         public string WritingPreperation(string input)
         {
             string output = "";
-            int degradationPoints = CalculateDegradationPoints(input);
+            int degradationPoints = CalculatePencilDegradationPoints(input);
             
 
             if(degradationPoints <= newPencil.CurrentPencilDurability)
@@ -73,7 +73,7 @@ namespace Pencil_Durability_Kata
             return output;
         }
         //Calculates how many points the inputed string will degrade the pencil
-        public int CalculateDegradationPoints(string input)
+        public int CalculatePencilDegradationPoints(string input)
         {
             int degradationPoints;
             int lowerCaseCount = 0;
@@ -100,10 +100,10 @@ namespace Pencil_Durability_Kata
             return degradationPoints;
         }
         //Degrades the pencil after CalculateDegradationPoints is finished
-        public void DegradePencil(int degrationPoints)
+        public void DegradePencil(int pencilDegrationPoints)
         {
             
-            newPencil.CurrentPencilDurability -= degrationPoints;
+            newPencil.CurrentPencilDurability -= pencilDegrationPoints;
             if(newPencil.CurrentPencilDurability <= 0)
             {
                 newPencil.CurrentPencilDurability = 0; //Adjust so you can't have a negative durability
@@ -122,7 +122,23 @@ namespace Pencil_Durability_Kata
                 newPencil.CurrentPencilDurability = newPencil.StartPencilDurability;
             }
         }
+        //Degrades the eraser after CalculateEraserDegradationPoints is finished
+        public void DegradeEraser(int eraserDegrationPoints)
+        {
+            newPencil.EraserDurability -= eraserDegrationPoints;
+            if(newPencil.EraserDurability <= 0)
+            {
+                newPencil.EraserDurability = 0;
+            }
+        }
         //Takes the file path and reads the txt file located in that path and sets the pencil's properties.
+        public int CalculateEraserDegradationPoints(string input)
+        {
+            int result = 0;
+
+
+            return result;
+        }
         public void SetPencilSettings(string filePath)
         {
 
