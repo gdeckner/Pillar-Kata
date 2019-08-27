@@ -17,7 +17,7 @@ namespace Pencil_Durability_Kata
 
 
 
-        //created specifically for testing in order to keep the object private.
+        //created specifically for testing in order to keep it private.
         public Pencil TestPencil
         {
             get
@@ -25,7 +25,7 @@ namespace Pencil_Durability_Kata
                 return newPencil;
             }
         }
-
+        //After using the WritingPreperation function it takes the output and appends it to an existing file or creates a new one
         public void WriteToFile(string input)
         {
             using(StreamWriter sw = File.AppendText(createdWriteFilePath))
@@ -33,6 +33,7 @@ namespace Pencil_Durability_Kata
                 sw.WriteLine(input);
             }
         }
+        //Calls the CalculateDegradationPoints function in order to determine how much is allowed to be written, afterwards returns the new string that takes into account the pencil durability
         public string WritingPreperation(string input)
         {
             string output = "";
@@ -71,6 +72,7 @@ namespace Pencil_Durability_Kata
             DegradePencil(degradationPoints);
             return output;
         }
+        //Calculates how many points the inputed string will degrade the pencil
         public int CalculateDegradationPoints(string input)
         {
             int degradationPoints;
@@ -97,6 +99,7 @@ namespace Pencil_Durability_Kata
 
             return degradationPoints;
         }
+        //Degrades the pencil after CalculateDegradationPoints is finished
         public void DegradePencil(int degrationPoints)
         {
             
@@ -104,6 +107,19 @@ namespace Pencil_Durability_Kata
             if(newPencil.CurrentPencilDurability <= 0)
             {
                 newPencil.CurrentPencilDurability = 0; //Adjust so you can't have a negative durability
+            }
+        }
+        //Resets the pencil durability at the cost of one length
+        public void SharpenPencil()
+        {
+            if(newPencil.PencilLength == 0)
+            {
+                //do nothing
+            }
+            else
+            {
+                newPencil.PencilLength -= 1;
+                newPencil.CurrentPencilDurability = newPencil.StartPencilDurability;
             }
         }
         //Takes the file path and reads the txt file located in that path and sets the pencil's properties.

@@ -124,6 +124,18 @@ namespace Pencil_Durability_Kata_Testing
 
 
         }
+        [TestMethod]
+        public void SharpenPencilTest()
+        {
+            int startPencilLength = testFunctions.TestPencil.PencilLength;
+            testFunctions.TestPencil.CurrentPencilDurability = 50;
+            testFunctions.SharpenPencil();
+
+            Assert.AreEqual(testFunctions.TestPencil.StartPencilDurability, testFunctions.TestPencil.CurrentPencilDurability);
+
+            Assert.AreEqual(startPencilLength - 1, testFunctions.TestPencil.PencilLength);
+        }
+
     }
 
 }
