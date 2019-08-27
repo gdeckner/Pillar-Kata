@@ -75,27 +75,10 @@ namespace Pencil_Durability_Kata
         //Calculates how many points the inputed string will degrade the pencil
         public int CalculatePencilDegradationPoints(string input)
         {
-            int degradationPoints;
-            int lowerCaseCount = 0;
-            int upperCaseCount = 0;
-
-            foreach(char c in input)
-            {
-                if(char.IsWhiteSpace(c))
-                {
-                    //do nothing
-                }
-                else if(char.IsUpper(c))
-                {
-                    upperCaseCount++;
-                }
-                else
-                {
-                    lowerCaseCount++;
-                }
-                
-            }
-            degradationPoints = lowerCaseCount + (upperCaseCount * 2);
+           
+            int lowerCaseCount = input.Count(c => !char.IsWhiteSpace(c) &&  !char.IsUpper(c));
+            int upperCaseCount = input.Count(c => char.IsUpper(c));
+            int degradationPoints = lowerCaseCount + (upperCaseCount * 2);
 
             return degradationPoints;
         }
@@ -134,8 +117,7 @@ namespace Pencil_Durability_Kata
         //Takes the file path and reads the txt file located in that path and sets the pencil's properties.
         public int CalculateEraserDegradationPoints(string input)
         {
-            int result = 0;
-
+            int result = input.Count(x=> x != ' ');
 
             return result;
         }
