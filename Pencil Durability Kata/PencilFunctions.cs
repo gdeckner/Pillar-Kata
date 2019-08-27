@@ -114,7 +114,7 @@ namespace Pencil_Durability_Kata
                 newPencil.EraserDurability = 0;
             }
         }
-        //Calculates how many points teh inputed string will degreade the eraser
+        //Calculates how many points the inputed string will degrade the eraser
         public int CalculateEraserDegradationPoints(string input)
         {
             int result = input.Count(x => x != ' ');
@@ -126,7 +126,6 @@ namespace Pencil_Durability_Kata
 
             return result;
         }
-
         //Reads the txt file and converts it back into a string to prepare it for the eraser.
         public string ReadTxtFile()
         {
@@ -163,9 +162,6 @@ namespace Pencil_Durability_Kata
                 StringBuilder sb = new StringBuilder(input);
                 while (eraserPoints != 0)
                 {
-
-
-
                     x = input[startIndex + i];
 
                     if (char.IsWhiteSpace(x))
@@ -175,7 +171,6 @@ namespace Pencil_Durability_Kata
                     }
                     else
                     {
-
                         eraserPoints--;
                         sb[startIndex + i] = ' ';
                         i++;
@@ -192,6 +187,45 @@ namespace Pencil_Durability_Kata
             return output;
         }
         //Takes the file path and reads the txt file located in that path and sets the pencil's properties.
+        public string EditPreperation(string originalInput, string eraserPreppedString, string targetToEdit, string replacementString)
+        {
+            string output = "";
+            int pencilPoints = CalculatePencilDegradationPoints(replacementString);
+            int startIndex = originalInput.LastIndexOf(targetToEdit);
+            StringBuilder sb = new StringBuilder(originalInput);
+            char x;
+            int i = 0;
+
+            while(pencilPoints != 0 && i < replacementString.Length)
+            {
+                x = eraserPreppedString[startIndex + i];
+
+               
+                 if(char.IsWhiteSpace(x) && char.IsUpper(replacementString[i]) && pencilPoints >= 2)
+                {
+                    pencilPoints -= 2;
+                    sb[startIndex + i] = replacementString[i];
+                    i++;
+                }
+                else if(char.IsWhiteSpace(x))
+                {
+                    pencilPoints--;
+                    sb[startIndex + i] = replacementString[i];
+                    i++;
+                }
+                else if (!char.IsWhiteSpace(x))
+                {
+                    pencilPoints--;
+                    sb[startIndex + i] = '@';
+                    i++;
+                }
+            }
+            output = Convert.ToString(sb);
+
+
+
+            return output;
+        }
         public void SetPencilSettings(string filePath)
         {
 

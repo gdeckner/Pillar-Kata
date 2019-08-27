@@ -190,6 +190,18 @@ namespace Pencil_Durability_Kata_Testing
             
  
         }
+        [TestMethod]
+        public void EditPreperationTest()
+        {
+            string testStatement = "Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!";
+
+           string eraserPrepped = testFunctions.EraserPreperation(testStatement, "move");
+
+            Assert.AreEqual("Thundercats are on the OINK, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!", testFunctions.EditPreperation(testStatement, eraserPrepped,"move","OINK"));
+
+            eraserPrepped = testFunctions.EraserPreperation(testStatement, "move");
+            Assert.AreEqual("Thundercats are on the HOOO@O@hundercats are loose! Feel the magic hear the roar Thundercats are loose!", testFunctions.EditPreperation(testStatement, eraserPrepped, "move", "HOOOOOO"));
+        }
     }
 
 }
