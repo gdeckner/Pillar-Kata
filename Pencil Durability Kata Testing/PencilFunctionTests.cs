@@ -163,7 +163,7 @@ namespace Pencil_Durability_Kata_Testing
         [TestMethod]
         public void ReadFileTest()
         {
-            string testStatement = "This is a test statement, please do something that makes the world a better place! Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!.";
+            string testStatement = "This is a test statement, please do something that makes the world a better place! Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!";
 
             testFunctions.WriteToFile(testStatement);
 
@@ -173,13 +173,22 @@ namespace Pencil_Durability_Kata_Testing
         [TestMethod]
         public void EraserPreperationTest()
         {
-            string testStatement = "This is a test statement, please do something that makes the world a better place! Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!.";
+            string testStatement = "Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!";
 
             testFunctions.WriteToFile(testStatement);
 
-            
+            testFunctions.TestPencil.EraserDurability = 1000;
+
+            Assert.AreEqual("Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are       ", testFunctions.EraserPreperation(testStatement, "loose!"));
+
+            Assert.AreEqual("Thundercats are on the     , Thundercats are loose! Feel the magic hear the roar Thundercats are loose!", testFunctions.EraserPreperation(testStatement, "move"));
+
+            testFunctions.TestPencil.EraserDurability = 5;
+
+            Assert.AreEqual("Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are      !", testFunctions.EraserPreperation(testStatement, "loose!"));
 
             
+ 
         }
     }
 

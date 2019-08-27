@@ -119,6 +119,11 @@ namespace Pencil_Durability_Kata
         {
             int result = input.Count(x => x != ' ');
 
+            if(result > newPencil.EraserDurability)
+            {
+                result = newPencil.EraserDurability;
+            }
+
             return result;
         }
 
@@ -143,6 +148,46 @@ namespace Pencil_Durability_Kata
         {
             string output = "";
 
+
+            int eraserPoints = CalculateEraserDegradationPoints(targetToErase);
+
+
+            if (input.Contains(targetToErase))
+            {
+                int i = 0;
+                char x;
+
+                DegradeEraser(eraserPoints);
+                int startIndex = input.LastIndexOf(targetToErase);
+
+                StringBuilder sb = new StringBuilder(input);
+                while (eraserPoints != 0)
+                {
+
+
+
+                    x = input[startIndex + i];
+
+                    if (char.IsWhiteSpace(x))
+                    {
+                        i++;
+
+                    }
+                    else
+                    {
+
+                        eraserPoints--;
+                        sb[startIndex + i] = ' ';
+                        i++;
+                    }
+
+                }
+                output = Convert.ToString(sb);
+            }
+            else
+            {
+                //Do nothing, can be changed to try catch but can change depending on how everything is implemented
+            }
 
             return output;
         }
