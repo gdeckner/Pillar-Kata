@@ -160,6 +160,27 @@ namespace Pencil_Durability_Kata_Testing
             Assert.AreEqual(53, result);
 
         }
+        [TestMethod]
+        public void ReadFileTest()
+        {
+            string testStatement = "This is a test statement, please do something that makes the world a better place! Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!.";
+
+            testFunctions.WriteToFile(testStatement);
+
+            Assert.AreEqual(testStatement, testFunctions.ReadTxtFile());
+
+        }
+        [TestMethod]
+        public void EraserPreperationTest()
+        {
+            string testStatement = "This is a test statement, please do something that makes the world a better place! Thundercats are on the move, Thundercats are loose! Feel the magic hear the roar Thundercats are loose!.";
+
+            testFunctions.WriteToFile(testStatement);
+
+            
+
+            
+        }
     }
 
 }
