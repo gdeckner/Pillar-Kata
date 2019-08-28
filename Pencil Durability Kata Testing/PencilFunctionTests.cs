@@ -12,15 +12,18 @@ namespace Pencil_Durability_Kata_Testing
         private string createdWriteFilePath = @System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\WriteFile.txt");
 
         PencilFunctions testFunctions = new PencilFunctions();
-
+        private int TestPencilCurrentDurability { get
+            {
+                return testFunctions.TestPencil.CurrentPencilDurability;
+            }
+            set { }
+        }
 
         public PencilFunctionTests()
         {
             testFunctions.SetPencilSettings(filePath);
             File.Delete(createdWriteFilePath);
         }
-
-
         [TestMethod]
         public void SetPencilSettingsTest()
         {
@@ -39,10 +42,10 @@ namespace Pencil_Durability_Kata_Testing
         public void DegradePencilTest()
         {
             testFunctions.DegradePencil(20000);
-            Assert.AreEqual(20000,testFunctions.TestPencil.CurrentPencilDurability);
+            Assert.AreEqual(20000, TestPencilCurrentDurability);
 
             testFunctions.DegradePencil(40000);
-            Assert.AreEqual(0, testFunctions.TestPencil.CurrentPencilDurability);
+            Assert.AreEqual(0, TestPencilCurrentDurability);
 
         }
         [TestMethod]
@@ -92,46 +95,13 @@ namespace Pencil_Durability_Kata_Testing
             Assert.AreEqual(testInput1, testResults);
         }
         [TestMethod]
-        public void FullWriteAndDegradePointsTest()
-        {
-            string testInput1 = "This is a test statement!!!";
-
-
-            testFunctions.TestPencil.CurrentPencilDurability = 20;
-
-            string writingTestResult = testFunctions.WritingPreperation(testInput1);
-
-            Assert.AreEqual("This is a test statemen    ", writingTestResult);
-            Assert.AreEqual(0, testFunctions.TestPencil.CurrentPencilDurability);
-
-            testFunctions.WriteToFile(writingTestResult);
-
-           
-
-            string testResults = "";
-
-            using (StreamReader sr = File.OpenText(createdWriteFilePath))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    testResults += line;
-                }
-            }
-
-            Assert.AreEqual(writingTestResult, testResults);
-
-
-
-        }
-        [TestMethod]
         public void SharpenPencilTest()
         {
             int startPencilLength = testFunctions.TestPencil.PencilLength;
             testFunctions.TestPencil.CurrentPencilDurability = 50;
             testFunctions.SharpenPencil();
 
-            Assert.AreEqual(testFunctions.TestPencil.StartPencilDurability, testFunctions.TestPencil.CurrentPencilDurability);
+            Assert.AreEqual(testFunctions.TestPencil.StartPencilDurability, TestPencilCurrentDurability);
 
             Assert.AreEqual(startPencilLength - 1, testFunctions.TestPencil.PencilLength);
         }
@@ -201,6 +171,64 @@ namespace Pencil_Durability_Kata_Testing
 
             eraserPrepped = testFunctions.EraserPreperation(testStatement, "move");
             Assert.AreEqual("Thundercats are on the HOOO@O@hundercats are loose! Feel the magic hear the roar Thundercats are loose!", testFunctions.EditPreperation(testStatement, eraserPrepped, "move", "HOOOOOO"));
+        }
+        [TestMethod]
+        public void FullIntegrationTesting()
+        {
+            string testString1 = "Thundercats HOOOOOOOOOOO!!!";
+            string testString2 = " Thundercats are loose!";
+            testFunctions.PencilWrite(testString1);
+
+            Assert.AreEqual(39961, TestPencilCurrentDurability);
+
+            testFunctions.SharpenPencil();
+            Assert.AreEqual(40000, TestPencilCurrentDurability);
+            Assert.AreEqual(2, testFunctions.TestPencil.PencilLength);
+            Assert.AreEqual(testString1, testFunctions.ReadTxtFile());
+
+            testFunctions.PencilWrite(testString2);
+
+            Assert.AreEqual(testString1 + testString2, testFunctions.ReadTxtFile());
+            Assert.AreEqual(39979, TestPencilCurrentDurability);
+
+            testFunctions.PencilErase("are");
+
+            Assert.AreEqual("Thundercats HOOOOOOOOOOO!!! Thundercats     loose!", testFunctions.ReadTxtFile());
+            Assert.AreEqual(4997, testFunctions.TestPencil.EraserDurability);
+
+            testFunctions.PencilEdit("loose","MoOsee");
+
+            Assert.AreEqual("Thundercats HOOOOOOOOOOO!!! Thundercats     MoOse@", testFunctions.ReadTxtFile());
+            Assert.AreEqual(4992, testFunctions.TestPencil.EraserDurability);
+            Assert.AreEqual(39971, TestPencilCurrentDurability);
+
+            testFunctions.TestPencil.EraserDurability = 5;
+            testFunctions.PencilErase("Thundercats");
+
+            Assert.AreEqual("Thundercats HOOOOOOOOOOO!!!      ercats     MoOse@", testFunctions.ReadTxtFile());
+            Assert.AreEqual(0, testFunctions.TestPencil.EraserDurability);
+
+            testFunctions.TestPencil.PencilLength = 1;
+            testFunctions.TestPencil.CurrentPencilDurability = 3;
+            testFunctions.TestPencil.EraserDurability = 5;
+
+            testFunctions.PencilEdit("ercats", "PILLAR");
+
+            Assert.AreEqual(0, TestPencilCurrentDurability);
+
+            testFunctions.SharpenPencil();
+
+            Assert.AreEqual(40000, TestPencilCurrentDurability);
+            Assert.AreEqual(0, testFunctions.TestPencil.PencilLength);
+
+            testFunctions.TestPencil.CurrentPencilDurability = 3;
+            Assert.AreEqual("Thundercats HOOOOOOOOOOO!!!      P    @     MoOse@", testFunctions.ReadTxtFile());
+            
+            
+            
+
+
+
         }
     }
 

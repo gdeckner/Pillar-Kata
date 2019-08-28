@@ -15,8 +15,6 @@ namespace Pencil_Durability_Kata
         private readonly string filePath = System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\config.txt");
         private string createdWriteFilePath = System.IO.Path.GetFullPath(Directory.GetCurrentDirectory() + @"\WriteFile.txt");
 
-
-
         //created specifically for testing in order to keep it private.
         public Pencil TestPencil
         {
@@ -25,10 +23,27 @@ namespace Pencil_Durability_Kata
                 return newPencil;
             }
         }
+        //Calls the writingPreperation and WriteToFile method/functions to perform the pencil write function in a single method
+        public void PencilWrite(string input)
+        {
+            WriteToFile(WritingPreperation(input));
+        }
+        //Calls the eraserPreperation and write function in order to perform the pencil eraser function in a single method
+        public void PencilErase(string targetToErase)
+        {
+            string input = ReadTxtFile();
+            WriteToFile(EraserPreperation(input, targetToErase));
+        }
+        //Calls the eraserPreperation, write, and edit function to perform the pencil edit function in a single method
+        public void PencilEdit(string targetToErase, string replacementString)
+        {
+            string pulledString = ReadTxtFile();
+            WriteToFile(EditPreperation(pulledString, EraserPreperation(pulledString, targetToErase), targetToErase, replacementString));
+        }
         //After using the WritingPreperation function it takes the output and appends it to an existing file or creates a new one
         public void WriteToFile(string input)
         {
-            using (StreamWriter sw = File.AppendText(createdWriteFilePath))
+            using (StreamWriter sw = File.CreateText(createdWriteFilePath))
             {
                 sw.WriteLine(input);
             }
@@ -36,38 +51,33 @@ namespace Pencil_Durability_Kata
         //Calls the CalculateDegradationPoints function in order to determine how much is allowed to be written, afterwards returns the new string that takes into account the pencil durability
         public string WritingPreperation(string input)
         {
-            string output = "";
+
+            string output = ReadTxtFile();
             int degradationPoints = CalculatePencilDegradationPoints(input);
 
 
-            if (degradationPoints <= newPencil.CurrentPencilDurability)
-            {
-                output = input;
 
-            }
-            else
-            {
-                int count = newPencil.CurrentPencilDurability;
+            int count = newPencil.CurrentPencilDurability;
 
-                foreach (char x in input)
+            foreach (char x in input)
+            {
+
+                if (char.IsUpper(x) && count >= 2)
                 {
-
-                    if (char.IsUpper(x) && count >= 2)
-                    {
-                        count -= 2;
-                        output += x;
-                    }
-                    else if (!char.IsWhiteSpace(x) && !char.IsUpper(x) && count >= 1)
-                    {
-                        count -= 1;
-                        output += x;
-                    }
-                    else
-                    {
-                        output += " ";
-                    }
+                    count -= 2;
+                    output += x;
+                }
+                else if (!char.IsWhiteSpace(x) && !char.IsUpper(x) && count >= 1)
+                {
+                    count -= 1;
+                    output += x;
+                }
+                else
+                {
+                    output += " ";
                 }
             }
+
 
             DegradePencil(degradationPoints);
             return output;
@@ -80,6 +90,10 @@ namespace Pencil_Durability_Kata
             int upperCaseCount = input.Count(c => char.IsUpper(c));
             int degradationPoints = lowerCaseCount + (upperCaseCount * 2);
 
+            if (degradationPoints > newPencil.CurrentPencilDurability)
+            {
+                degradationPoints = newPencil.CurrentPencilDurability;
+            }
             return degradationPoints;
         }
         //Degrades the pencil after CalculateDegradationPoints is finished
@@ -119,7 +133,7 @@ namespace Pencil_Durability_Kata
         {
             int result = input.Count(x => x != ' ');
 
-            if(result > newPencil.EraserDurability)
+            if (result > newPencil.EraserDurability)
             {
                 result = newPencil.EraserDurability;
             }
@@ -132,13 +146,17 @@ namespace Pencil_Durability_Kata
             string convertedTxtToString = "";
             string line;
 
-            using (StreamReader sr = File.OpenText(createdWriteFilePath))
+            if (File.Exists(createdWriteFilePath))
             {
-                while ((line = sr.ReadLine()) != null)
+                using (StreamReader sr = File.OpenText(createdWriteFilePath))
                 {
-                    convertedTxtToString += line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        convertedTxtToString += line;
+                    }
                 }
             }
+
 
             return convertedTxtToString;
         }
@@ -186,7 +204,7 @@ namespace Pencil_Durability_Kata
 
             return output;
         }
-        //Takes the file path and reads the txt file located in that path and sets the pencil's properties.
+        //Takes in the original string and replacement word in order to find the index of the target word then it writes down the replacement word in the new string from eraserpreperation and returns a new string.
         public string EditPreperation(string originalInput, string eraserPreppedString, string targetToEdit, string replacementString)
         {
             string output = "";
@@ -196,36 +214,45 @@ namespace Pencil_Durability_Kata
             char x;
             int i = 0;
 
-            while(pencilPoints != 0 && i < replacementString.Length)
+            DegradePencil(pencilPoints);
+
+            while (pencilPoints != 0 && i < replacementString.Length)
             {
                 x = eraserPreppedString[startIndex + i];
 
-               
-                 if(char.IsWhiteSpace(x) && char.IsUpper(replacementString[i]) && pencilPoints >= 2)
+
+                if (char.IsWhiteSpace(x) && char.IsUpper(replacementString[i]) && pencilPoints >= 2)
                 {
                     pencilPoints -= 2;
                     sb[startIndex + i] = replacementString[i];
-                    i++;
+                   
                 }
-                else if(char.IsWhiteSpace(x))
+                else if (char.IsWhiteSpace(x) && !char.IsUpper(replacementString[i]))
                 {
                     pencilPoints--;
                     sb[startIndex + i] = replacementString[i];
-                    i++;
+                    
                 }
                 else if (!char.IsWhiteSpace(x))
                 {
                     pencilPoints--;
                     sb[startIndex + i] = '@';
-                    i++;
+                   
                 }
+                else
+                {
+                    sb[startIndex + i] = ' ';
+                }
+                i++;
             }
+
             output = Convert.ToString(sb);
 
 
 
             return output;
         }
+        //Takes the file path and reads the txt file located in that path and sets the pencil's properties.
         public void SetPencilSettings(string filePath)
         {
 
